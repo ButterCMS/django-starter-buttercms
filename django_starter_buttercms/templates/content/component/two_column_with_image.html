@@ -1,0 +1,29 @@
+<section id="about" class="cta-section">
+    <div class="container">
+        <div class="row align-items-center">
+            {% if component.image_position == 'left' %}
+            <div class="col-lg-6 order-last order-lg-first">
+                <div class="left-image cta-image ">
+                    <img src="{{ component.image }}" alt="">
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-lg-6 col-md-10">
+                <div class="cta-content-wrapper">
+                    <div class="section-title">
+                        <h2 class="mb-20">{{ component.headline }}</h2>
+                        <p>{{ component.subheadline|safe }}</p>
+                        <a href="{{ component.button_url }}" class="main-btn btn-hover border-btn mt-30">{{ component.button_label }}</a>
+                    </div>
+                </div>
+            </div>
+            {% if component.image_position == 'right' %}
+            <div class="col-lg-6">
+                <div class="right-image cta-image text-lg-end">
+                    <img src="{{ component.image }}" alt="">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
