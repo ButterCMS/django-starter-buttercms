@@ -103,7 +103,7 @@
     <!-- ========================= Body components ========================= -->
     {% if page %}
         {% for component in page.fields.body %}
-            {% include component.template_name with component=component.fields%}
+            {% include component.template_name with component=component.fields component_name=component.type%}
         {% endfor %}
     {% endif %}
 
@@ -120,7 +120,7 @@
           <div class="col-xl-6 col-lg-6 col-md-10">
             <div class="hero-content">
                 <h1>Configure your ButterCMS API Token</h1>
-                <p>Please add your API token to XYZ file.</p>
+                <p>Please add your API token to <code>.env</code> file.</p>
                 <a target="_blank" href="https://buttercms.com/join/" class="main-btn btn-hover">Get your free API token</a>
             </div>
             </div>

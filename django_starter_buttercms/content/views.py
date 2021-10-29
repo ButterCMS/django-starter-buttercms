@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.http import Http404
 from django.views.generic import TemplateView
+from django.template.loader import get_template
+from django.template.exceptions import TemplateDoesNotExist
 
 from common.buttercms import client
 
@@ -17,11 +19,20 @@ class ButterCMSPageView(TemplateView):
             if page.get("page_type") == "landing-page":
                 # Prepare template names for components
                 for component in page.get("fields", {}).get("body", []):
-                    component["template_name"] = f"content/component/{component.get('type')}.html"
+                    # Check that the this project has a template for this component
+                    template_name = f"content/component/{component.get('type')}.html"
+                    try:
+                        get_template(template_name)
+                    except TemplateDoesNotExist:
+                        # Template doesn't seem to exist, so let's set it to fallback
+                        template_name = "content/partials/missing-component.html"
+
+                    component["template_name"] = template_name
 
             context["page"] = page
 
             context["blog_posts"] = self.get_blog_posts()
+            # TODO Get navigation menu
         else:
             context["no_token"] = True
 
