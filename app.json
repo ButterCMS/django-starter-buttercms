@@ -19,6 +19,10 @@
             "description": "Path to Django's settings module",
             "value": "config.settings.production"
         },
+        "DJANGO_ADMIN_URL": {
+            "description": "URL for Django Admin",
+            "value": "/admin"
+        },
         "DATABASE_URL": {
             "description": "The default DB configuration for Django",
             "value": "sqlite:///db.sqlite"
