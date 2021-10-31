@@ -1,0 +1,39 @@
+{
+    "name": "ButterCMS Django Starter Project ",
+    "description": "A simple project showing how to use ButterCMS with Django.",
+    "repository": "https://github.com/failedguidedog/django-starter-buttercms",
+    "logo": "https://django-starter-buttercms.herokuapp.com/static/images/logo/logo.svg",
+    "keywords": ["django", "python", "buttercms"],
+    "image": "heroku/python",
+    "buildpacks": [
+        {
+          "url": "heroku/python"
+        }
+    ],
+    "env": {
+        "DJANGO_SECRET_KEY": {
+            "description": "The secret key for the Django application.",
+            "generator": "secret"
+        },
+        "DJANGO_SETTINGS_MODULE": {
+            "description": "Path to Django's settings module",
+            "value": "config.settings.production"
+        },
+        "DATABASE_URL": {
+            "description": "The default DB configuration for Django",
+            "value": "sqlite:///db.sqlite"
+        },
+        "BUTTERCMS_API_TOKEN": {
+            "description": "The API token of your ButterCMS account",
+            "value": ""
+        }
+    },
+    "environments": {
+        "test": {
+            "scripts": {
+            "test-setup": "python manage.py collectstatic --noinput",
+            "test": "python manage.py test"
+            }
+        }
+    }
+}
