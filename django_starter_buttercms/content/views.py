@@ -16,6 +16,7 @@ class ButterCMSPageView(TemplateView):
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             page = self.get_page(slug)
+
             if page.get("page_type") == "landing-page":
                 # Prepare template names for components
                 for component in page.get("fields", {}).get("body", []):
@@ -28,11 +29,16 @@ class ButterCMSPageView(TemplateView):
                         template_name = "content/partials/missing-component.html"
 
                     component["template_name"] = template_name
+            else:
+                # Since there are no implementations for other page types,
+                # we raise 404 in this case.
+                raise Http404
 
             context["page"] = page
 
             context["blog_posts"] = self.get_blog_posts()
-            # TODO Get navigation menu
+
+            context["navigation_menu"] = self.get_navigation_menu()
         else:
             context["no_token"] = True
 
@@ -63,3 +69,17 @@ class ButterCMSPageView(TemplateView):
             raise Http404
 
         return blog_posts_data
+
+    def get_navigation_menu(self):
+        """
+        Return a navigation menu from ButterCMS. Raise 404 if the "Main menu" is not found
+        """
+        butter_navigation_menu = client.content_fields.get(["navigation_menu"])
+        navigation_menus = butter_navigation_menu.get("data", {}).get("navigation_menu", [])
+
+        main_menu = [menu for menu in navigation_menus if menu.get("name") == "Main menu"]
+
+        if not main_menu:
+            raise Http404
+
+        return main_menu[0]
