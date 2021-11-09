@@ -60,29 +60,16 @@
                   <span class="toggler-icon"></span>
                   <span class="toggler-icon"></span>
                   <span class="toggler-icon"></span>
-                                </button>
+                </button>
 
                 <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                     <div class="ms-auto">
                         <ul id="nav" class="navbar-nav ms-auto">
+                            {% for menu_item in navigation_menu.menu_items %}
                             <li class="nav-item">
-                                <a class="page-scroll active" href="#home">Home</a>
+                                <a class="page-scroll{% if forloop.first %} active{% endif %}" href="{{ menu_item.url }}">{{ menu_item.label }}</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="page-scroll" href="#about">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="page-scroll" href="#features">Features</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="page-scroll" href="#tryit">Try It</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="page-scroll" href="#testimonials">Testimonials</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="page-scroll" href="#blog">Blog</a>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -103,7 +90,7 @@
     <!-- ========================= Body components ========================= -->
     {% if page %}
         {% for component in page.fields.body %}
-            {% include component.template_name with component=component.fields component_name=component.type%}
+            {% include component.template_name with component=component.fields component_name=component.type %}
         {% endfor %}
     {% endif %}
 
@@ -158,12 +145,9 @@
                     <div class="footer-widget">
                         <h3>About Us</h3>
                         <ul class="links">
-                            <li><a href="#0">Home</a></li>
-                            <li><a href="#0">About</a></li>
-                            <li><a href="#0">Features</a></li>
-                            <li><a href="#0">Try It</a></li>
-                            <li><a href="#0">Testimonials</a></li>
-                            <li><a href="#0">Blog</a></li>
+                            {% for menu_item in navigation_menu.menu_items %}
+                            <li><a href="{{ menu_item.url }}">{{ menu_item.label }}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
