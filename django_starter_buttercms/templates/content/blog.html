@@ -1,0 +1,155 @@
+{% extends 'content/base.html' %}
+{% load static %}
+
+{% block title %}Sample Blog with Components - powered by ButterCMS{% endblock %}
+{% block description %}Sample Landing Page with Components - powered by ButterCMS{% endblock %}
+
+{% block navigation_menu %}
+
+<div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+    <div class="ms-auto">
+        <ul id="nav" class="navbar-nav ms-auto">
+            {% for menu_item in navigation_menu.menu_items %}
+            <li class="nav-item">
+                <a class="{% if menu_item.label == 'Blog' %}active{% endif %}" href="/{{ menu_item.url }}">{{ menu_item.label }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block main %}
+        <!-- ========================= blog-roll section start ========================= -->
+
+    <section id="blog-roll" class="blog-roll-nav">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+
+                    <!-- Breadcrumb nav for main blog.html view -->
+                    <div class="section-title text-center">
+                        <h2>All Blog Posts</h2>
+                        <ul class="breadcrumb-nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li>All blog posts</li>
+                        </ul>
+                    </div>
+                    <!-- End Nav -->
+
+                    <!-- Breadcrumb nav for categories view -->
+                    <!-- <div class="section-title text-center">
+                        <h2>Blog Posts by Category</h2>
+                        <ul class="breadcrumb-nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li>Category: Name</li>
+                        </ul>
+                    </div> -->
+                    <!-- End Nav -->
+
+                    <!-- Breadcrumb nav for posts by tag view -->
+                    <!-- <div class="section-title text-center">
+                        <h2>Blog Posts by Tag</h2>
+                        <ul class="breadcrumb-nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li>Tag: Name</li>
+                        </ul>
+                    </div> -->
+                    <!-- End Nav -->
+
+                    <!-- Breadcrumb nav for search view -->
+                    <!-- <div class="section-title text-center">
+                        <h2>Search Results</h2>
+                        <ul class="breadcrumb-nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li>Seach: Search Term</li>
+                        </ul>
+                    </div> -->
+                    <!-- End Nav -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Post -->
+    <section class="blog-posts">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8 blog-roll-cards">
+                    <div class="row"><!--nested row for blogroll-->
+                        {% for blog_post in blog_posts %}
+                        <div class="col-12 col-lg-6">
+                            <div class="blog-roll-card">
+                                <div class="blog-roll-card-meta">
+                                    <h2 class="blog-roll-card-header"><a href="#">{{ blog_post.title }}</a></h2>
+                                    <ul class="blog-roll-card-meta-info">
+                                        <li>
+                                            <a href="javascript:void(0)"><img src="{% if blog_post.author.profile_image %}{{ blog_post.author.profile_image }}{% else %}{% static 'images/team/team-1.png' %}{% endif %}" alt="#">{{ blog_post.author.first_name }} {{ blog_post.author.last_name }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)"><i class="lni lni-calendar"></i>{{ blog_post.published }}
+                                        </a>
+                                        </li>
+                                        {% for tag in blog_post.tags %}
+                                        <li>
+                                            <a href="javascript:void(0)"><i class="lni lni-tag"></i>{{ tag.name }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="single-post-thumbnail">
+                                    <img src="{{ blog_post.featured_image }}" alt="">
+                                </div>
+                                <div class="blog-roll-card-body">
+                                    <p>{{ blog_post.summary }}</p>
+                                </div>
+                                <div class="blog-roll-card-footer text-center">
+                                    <a href="{% url 'content:blog_post' slug=blog_post.slug %}" class="main-btn btn-hover">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Widgets Column -->
+                <aside class="col-12 col-lg-4">
+                    <div class="sidebar blog-grid-page">
+                        <div class="widget search-widget">
+                            <h5 class="widget-title">Search This Site</h5>
+                            <form action="#">
+                                <input type="text" placeholder="Search Here...">
+                                <button type="submit"><i class="lni lni-search-alt"></i></button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="widget categories-widget">
+                        <h5 class="widget-title">Categories</h5>
+                        <ul class="categories-list">
+                            <li>
+                                <a href="javascript:void(0)">Design</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">UX</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">Interview</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">Business</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">Popular</a>
+                            </li>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+    <!-- ========================= blog-section end ========================= -->
+{% endblock %}
