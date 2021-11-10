@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.http import Http404
+from django.utils import dateparse
 from django.views.generic import TemplateView
 from django.template.loader import get_template
 from django.template.exceptions import TemplateDoesNotExist
@@ -63,6 +64,8 @@ class ButterCMSPageView(TemplateView):
         """
         blog_posts = client.posts.all({'page_size': 3, 'page': 1, 'exclude_body': 'true'})
         blog_posts_data = blog_posts.get("data", [])
+        for post in blog_posts_data:
+            post['published'] = dateparse.parse_datetime(post['published'])
 
         # If "data" is not in the payload, the page was not fetched successfully
         if blog_posts_data is None:
@@ -83,3 +86,54 @@ class ButterCMSPageView(TemplateView):
             raise Http404
 
         return main_menu[0]
+
+
+class ButterCMSBlogView(ButterCMSPageView):
+    template_name = "content/blog.html"
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+
+        # Check if API Token is set properly
+        if settings.BUTTERCMS_API_TOKEN:
+            context["blog_posts"] = self.get_blog_posts()
+
+            context["navigation_menu"] = self.get_navigation_menu()
+        else:
+            context["no_token"] = True
+
+        return self.render_to_response(context)
+
+
+class ButterCMSBlogPostView(ButterCMSBlogView):
+    template_name = "content/blog-post.html"
+
+    def get(self, request, slug, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+
+        # Check if API Token is set properly
+        if settings.BUTTERCMS_API_TOKEN:
+            blog_post = self.get_blog_post(slug)
+
+            context["blog_post"] = blog_post
+
+            context["navigation_menu"] = self.get_navigation_menu()
+        else:
+            context["no_token"] = True
+
+        return self.render_to_response(context)
+
+    def get_blog_post(self, slug):
+        """
+        Return a blog post from ButterCMS. Raise 404 if the post is not found
+        """
+        butter_post = client.posts.get(slug)
+        post_data = butter_post.get("data")
+        post_data['published'] = dateparse.parse_datetime(post_data['published'])
+
+
+        # If "data" is not in the payload, the page was not fetched successfully
+        if post_data is None:
+            raise Http404
+
+        return post_data
