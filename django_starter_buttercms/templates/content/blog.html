@@ -28,37 +28,39 @@
             <div class="row justify-content-center">
                 <div class="col-12">
 
+                    {% if category_slug %}
+                    <!-- Breadcrumb nav for categories view -->
+                    <div class="section-title text-center">
+                        <h2>Blog Posts by Category</h2>
+                        <ul class="breadcrumb-nav">
+                            <li><a href="{% url 'content:home' %}">Home</a></li>
+                            <li><a href="{% url 'content:blog' %}">Blog</a></li>
+                            <li>Category: {{ category_slug }}</li>
+                        </ul>
+                    </div>
+                    <!-- End Nav -->
+                    {% elif tag_slug %}
+                    <!-- Breadcrumb nav for posts by tag view -->
+                    <div class="section-title text-center">
+                        <h2>Blog Posts by Tag</h2>
+                        <ul class="breadcrumb-nav">
+                            <li><a href="{% url 'content:home' %}">Home</a></li>
+                            <li><a href="{% url 'content:blog' %}">Blog</a></li>
+                            <li>Tag: {{ tag_slug }}</li>
+                        </ul>
+                    </div>
+                    <!-- End Nav -->
+                    {% else %}
                     <!-- Breadcrumb nav for main blog.html view -->
                     <div class="section-title text-center">
                         <h2>All Blog Posts</h2>
                         <ul class="breadcrumb-nav">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="{% url 'content:home' %}">Home</a></li>
                             <li>All blog posts</li>
                         </ul>
                     </div>
                     <!-- End Nav -->
-
-                    <!-- Breadcrumb nav for categories view -->
-                    <!-- <div class="section-title text-center">
-                        <h2>Blog Posts by Category</h2>
-                        <ul class="breadcrumb-nav">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li>Category: Name</li>
-                        </ul>
-                    </div> -->
-                    <!-- End Nav -->
-
-                    <!-- Breadcrumb nav for posts by tag view -->
-                    <!-- <div class="section-title text-center">
-                        <h2>Blog Posts by Tag</h2>
-                        <ul class="breadcrumb-nav">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li>Tag: Name</li>
-                        </ul>
-                    </div> -->
-                    <!-- End Nav -->
+                    {% endif %}
 
                     <!-- Breadcrumb nav for search view -->
                     <!-- <div class="section-title text-center">
@@ -96,7 +98,7 @@
                                         </li>
                                         {% for tag in blog_post.tags %}
                                         <li>
-                                            <a href="javascript:void(0)"><i class="lni lni-tag"></i>{{ tag.name }}</a>
+                                            <a href="{% url 'content:blog_tags' tag.slug %}"><i class="lni lni-tag"></i>{{ tag.name }}</a>
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -116,38 +118,7 @@
                     </div>
                 </div>
                 <!-- Widgets Column -->
-                <aside class="col-12 col-lg-4">
-                    <div class="sidebar blog-grid-page">
-                        <div class="widget search-widget">
-                            <h5 class="widget-title">Search This Site</h5>
-                            <form action="#">
-                                <input type="text" placeholder="Search Here...">
-                                <button type="submit"><i class="lni lni-search-alt"></i></button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="widget categories-widget">
-                        <h5 class="widget-title">Categories</h5>
-                        <ul class="categories-list">
-                            <li>
-                                <a href="javascript:void(0)">Design</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)">UX</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)">Interview</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)">Business</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)">Popular</a>
-                            </li>
-                        </div>
-                    </div>
-                </aside>
+               {% include "content/partials/blog-search-and-categories.html" %}
             </div>
         </div>
     </section>
