@@ -70,7 +70,7 @@ class ButterCMSPageView(TemplateView):
             kwargs.update({"category_slug": category_slug})
         if tag_slug:
             kwargs.update({"tag_slug": tag_slug})
-        blog_posts = client.posts.all()
+        blog_posts = client.posts.all(params=kwargs)
         blog_posts_data = blog_posts.get("data", [])
 
         # If "data" is not in the payload, the page was not fetched successfully
