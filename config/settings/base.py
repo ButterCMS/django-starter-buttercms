@@ -194,6 +194,15 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 # Enable iframing for ButterCMS in-page previews
 CSP_FRAME_ANCESTORS = ["'self'", "https://buttercms.com"]
+# Enable loading resources from CDN
+CSP_DEFAULT_SRC = [
+    "'self'",
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
+    "https://cdn.buttercms.com",
+    "https://buttercms.com",
+    "https://d2devwt40at1e2.cloudfront.net",
+]
 
 # EMAIL
 # ------------------------------------------------------------------------------
