@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.http import Http404
-from django.views.generic import TemplateView
-from django.template.loader import get_template
 from django.template.exceptions import TemplateDoesNotExist
+from django.template.loader import get_template
+from django.views.generic import TemplateView
 
 from common.buttercms import client
 
@@ -15,7 +15,8 @@ class ButterCMSPageView(TemplateView):
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
-            page = self.get_page(slug)
+            preview = request.GET.get("preview")
+            page = self.get_page(slug, preview=preview)
 
             if page.get("page_type") == "landing-page":
                 # Prepare template names for components
@@ -44,11 +45,14 @@ class ButterCMSPageView(TemplateView):
 
         return self.render_to_response(context)
 
-    def get_page(self, slug):
+    def get_page(self, slug, preview=None):
         """
         Return page from ButterCMS. Raise 404 if the page is not found
         """
-        butter_page = client.pages.get("*", slug)  # Use "*" to search through all Page Types
+        params = {"preview": 1} if preview else None
+        butter_page = client.pages.get(
+            "*", slug, params=params
+        )  # Use "*" to search through all Page Types
         page_data = butter_page.get("data")
 
         # If "data" is not in the payload, the page was not fetched successfully
@@ -61,11 +65,11 @@ class ButterCMSPageView(TemplateView):
         """
         Return a list of blog posts from ButterCMS. Raise 404 if the page is not found
         """
-        kwargs = {'page_size': 3, 'page': 1, 'exclude_body': 'true'}
+        kwargs = {"page_size": 3, "page": 1, "exclude_body": "true"}
         if category_slug:
-            kwargs.update({'category_slug': category_slug})
+            kwargs.update({"category_slug": category_slug})
         if tag_slug:
-            kwargs.update({'tag_slug': tag_slug})
+            kwargs.update({"tag_slug": tag_slug})
         blog_posts = client.posts.all()
         blog_posts_data = blog_posts.get("data", [])
 
@@ -80,9 +84,13 @@ class ButterCMSPageView(TemplateView):
         Return a navigation menu from ButterCMS. Raise 404 if the "Main menu" is not found
         """
         butter_navigation_menu = client.content_fields.get(["navigation_menu"])
-        navigation_menus = butter_navigation_menu.get("data", {}).get("navigation_menu", [])
+        navigation_menus = butter_navigation_menu.get("data", {}).get(
+            "navigation_menu", []
+        )
 
-        main_menu = [menu for menu in navigation_menus if menu.get("name") == "Main menu"]
+        main_menu = [
+            menu for menu in navigation_menus if menu.get("name") == "Main menu"
+        ]
 
         if not main_menu:
             raise Http404
@@ -101,8 +109,7 @@ class ButterCMSBlogView(ButterCMSPageView):
             category_slug = kwargs.get("category_slug")
             tag_slug = kwargs.get("tag_slug")
             context["blog_posts"] = self.get_blog_posts(
-                category_slug=category_slug,
-                tag_slug=tag_slug
+                category_slug=category_slug, tag_slug=tag_slug
             )
             context["category_slug"] = category_slug
             context["tag_slug"] = tag_slug
