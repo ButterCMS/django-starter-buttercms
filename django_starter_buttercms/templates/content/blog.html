@@ -53,10 +53,10 @@
                     {% else %}
                     <!-- Breadcrumb nav for main blog.html view -->
                     <div class="section-title text-center">
-                        <h2>All Blog Posts</h2>
+                        <h2>{% if search_query %}Blog posts containing "{{ search_query }}"{% else %}All Blog Posts{% endif %}</h2>
                         <ul class="breadcrumb-nav">
                             <li><a href="{% url 'content:home' %}">Home</a></li>
-                            <li>All blog posts</li>
+                            <li>{% if search_query %}Blog posts containing "{{ search_query }}"{% else %}All Blog Posts{% endif %}</li>
                         </ul>
                     </div>
                     <!-- End Nav -->
@@ -114,6 +114,8 @@
                                 </div>
                             </div>
                         </div>
+                        {% empty %}
+                          <div>No blog posts found.</div>
                         {% endfor %}
                     </div>
                 </div>
