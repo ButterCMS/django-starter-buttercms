@@ -79,6 +79,18 @@ class ButterCMSPageView(TemplateView):
 
         return blog_posts_data
 
+    def search_blog_posts(self, query):
+        """
+        Return a list of blog posts from ButterCMS that match the search query.
+
+        Raise 404 if the page is not found.
+        """
+        kwargs = {"page_size": 3, "page": 1, "exclude_body": "true"}
+        blog_posts = client.posts.search(query=query, params=kwargs)
+        blog_posts_data = blog_posts.get("data", [])
+
+        return blog_posts_data
+
     def get_navigation_menu(self):
         """
         Return a navigation menu from ButterCMS. Raise 404 if the "Main menu" is not found
@@ -113,6 +125,27 @@ class ButterCMSBlogView(ButterCMSPageView):
             )
             context["category_slug"] = category_slug
             context["tag_slug"] = tag_slug
+
+            context["categories"] = client.categories.all().get("data")
+
+            context["navigation_menu"] = self.get_navigation_menu()
+        else:
+            context["no_token"] = True
+
+        return self.render_to_response(context)
+
+
+class ButterCMSBlogSearchView(ButterCMSPageView):
+    template_name = "content/blog.html"
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+
+        # Check if API Token is set properly
+        if settings.BUTTERCMS_API_TOKEN:
+            search_query = request.GET.get("search_query")
+            context["blog_posts"] = self.search_blog_posts(search_query)
+            context["search_query"] = search_query
 
             context["categories"] = client.categories.all().get("data")
 
