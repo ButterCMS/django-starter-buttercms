@@ -5,44 +5,31 @@ create your free trial account on ButterCMS.
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/pydanny/cookiecutter-django/)
 
-## Installation
+## 1) Installation
 
-First prepare a virtual environment
-
-```bash
-$ python -m venv venv
-$ source venv/bin/activate
-```
-
-Then install the project requirements
+Create a virtual environment and install project requirements.
 
 ```bash
+$ python3 -m venv butterenv
+$ source butterenv/bin/activate
 $ pip install -r requirements/local.txt
 ```
 
-### API Token
+### 2) Set ButterCMS API Token
 
-For Django to be able to fetch your ButterCMS content properly, you need to add your API token as an environment variable.
-To do that, copy `sample.env` and edit it, so that includes [your API token](https://buttercms.com/join/).
+Get [your free ButterCMS API token](https://buttercms.com/join/). To fetch your ButterCMS content, add your API token as an environment variable. Set `BUTTERCMS_API_TOKEN=<Your API Token>` in `.env`. .
 
-```bash
-$ cp sample.env .env
-```
+To fetch your ButterCMS content, add your API token as an environment variable. You can find it in your ButterCMS [account settings](https://buttercms.com/settings/). If you don't already have a ButterCMS account, [get one for free](https://buttercms.com/join/).
 
-```
-# .env
-BUTTERCMS_API_TOKEN=<Your API Token>
-```
-
-### Run the local server
-
-All that's left is running the migrations and running Django's development server
 
 ```bash
-$ python manage.py migrate
+$ echo 'BUTTERCMS_API_TOKEN=your_token' >> .env
+```
+
+### 3) Run Django Local Development Server
+
+```bash
 $ python manage.py runserver
 ```
 
-## Django Settings
-
-Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
+Your starter is live [http://127.0.0.1:8000/](http://127.0.0.1:8000/) !
