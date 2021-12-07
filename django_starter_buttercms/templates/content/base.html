@@ -145,7 +145,7 @@
                         <h3>About Us</h3>
                         <ul class="links">
                             {% for menu_item in navigation_menu.menu_items %}
-                            <li><a href="{{ menu_item.url }}">{{ menu_item.label }}</a></li>
+                            <li><a href="/{{ menu_item.url }}">{{ menu_item.label }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
