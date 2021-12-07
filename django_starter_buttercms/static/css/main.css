@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* ============================
   Template Name: SaaSdeck
   Author: uideck
@@ -5,7 +6,7 @@
   Version: 1.0
 =============================== */
 /*===========================
-    COMMON css
+		COMMON css
 ===========================*/
 @import url("https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap");
 html {
@@ -642,8 +643,8 @@ p {
     transform: rotate(-130deg);
   }
 }
-/*===========================
-  NAVBAR CSS
+/*=========================== 
+	NAVBAR CSS 
 ============================= */
 .navbar-area {
   position: absolute;
@@ -843,7 +844,7 @@ p {
 }
 
 /* ====================
-    HERO CSS
+		HERO CSS
 ======================= */
 .hero-section {
   position: relative;
@@ -1206,6 +1207,10 @@ p {
   background: rgba(0, 0, 0, 0.05);
 }
 
+.single-blog div:first-of-type, .single-post div:first-of-type, .blog-roll-card div:first-of-type {
+  padding-top: 0;
+}
+
 .single-post-nav, .blog-roll-nav {
   align-items: center;
   background: linear-gradient(180deg, #C2FBFF 0%, rgba(255, 255, 255, 0) 93.47%);
@@ -1248,13 +1253,13 @@ p {
   text-transform: capitalize;
 }
 .breadcrumb-nav li::after {
-  content: "\ea62";
+  content: "";
   font-size: 10px;
   position: relative;
   font-family: lineIcons;
   right: 11px;
 }
-.breadcrumb-nav li:last-child ::after {
+.breadcrumb-nav li:last-child::after {
   content: "";
 }
 
@@ -1262,17 +1267,21 @@ p {
   padding: 0px;
 }
 
+.single-post div:first-of-type, .blog-roll-card div:first-of-type {
+  padding-top: 30px;
+}
+
 .single-post-meta, .blog-roll-card-meta {
-  padding: 30px 16px;
+  padding: 30px 16px 0 16px;
 }
 @media only screen and (min-width: 550px) {
   .single-post-meta, .blog-roll-card-meta {
-    padding: 42px 24px;
+    padding: 42px 24px 0 24px;
   }
 }
 @media only screen and (min-width: 768px) {
   .single-post-meta, .blog-roll-card-meta {
-    padding: 52px 30px;
+    padding: 52px 30px 0 30px;
   }
 }
 
@@ -1344,9 +1353,20 @@ p {
   overflow: hidden;
   border-radius: 0;
   width: 100%;
+  margin-top: 15px;
 }
 .single-post-thumbnail img {
   width: 100%;
+}
+@media only screen and (min-width: 550px) {
+  .single-post-thumbnail {
+    margin-top: 42px;
+  }
+}
+  @media only screen and (min-width: 768px) {
+  .single-post-thumbnail {
+    margin-top: 52px;
+  }
 }
 
 .single-post-body, .blog-roll-card-body {
@@ -1373,12 +1393,18 @@ p {
   max-width: 100%;
 }
 
+@media only screen and (min-width: 768px) {
+  .blog-roll-card .single-post-thumbnail {
+  margin-top: 30px;
+  }
+}
+
 .blog-roll-card-meta {
-  padding: 15px;
+  padding: 15px 15px 0 15px;
 }
 @media only screen and (min-width: 768px) {
   .blog-roll-card-meta {
-    padding: 30px;
+    padding: 30px 30px 0 30px;
   }
 }
 
@@ -1443,7 +1469,7 @@ p {
 }
 
 /* ========================
-    TESTIMONIAL CSS
+		TESTIMONIAL CSS
 =========================== */
 .testimonial-section {
   background-image: url("../images/testimonial/testimonial-bg.svg");
