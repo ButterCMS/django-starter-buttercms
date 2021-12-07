@@ -65,7 +65,7 @@ class ButterCMSPageView(TemplateView):
         """
         Return a list of blog posts from ButterCMS. Raise 404 if the page is not found
         """
-        kwargs = {"page_size": 3, "page": 1, "exclude_body": "true"}
+        kwargs = {"page_size": 10, "page": 1, "exclude_body": "true"}
         if category_slug:
             kwargs.update({"category_slug": category_slug})
         if tag_slug:

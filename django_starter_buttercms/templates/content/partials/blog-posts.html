@@ -9,21 +9,23 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            {% for blog_post in blog_posts %}
-            <div class="col-lg-4 col-md-8 col-sm-10">
-                <div class="single-blog">
-                    <div class="blog-header">
-                        <img width="300" src="{{ blog_post.featured_image }}" alt="{{ blog_post.featured_image_alt }}">
+            {% for blog_post in blog_posts reversed %}
+                {% if forloop.counter == 1 or forloop.counter == 2 %}
+                    <div class="col-lg-4 col-md-8 col-sm-10">
+                        <div class="single-blog">
+                            <div class="blog-header">
+                                <img width="300" src="{{ blog_post.featured_image }}" alt="{{ blog_post.featured_image_alt }}">
+                            </div>
+                            <div class="blog-body">
+                                <h5 class="package-name"><a href="#">{{ blog_post.title }}</a></h5>
+                                <p>{{ blog_post.summary }}</p>
+                            </div>
+                            <div class="blog-footer">
+                                <a href="{% url 'content:blog_post' slug=blog_post.slug %}" class="main-btn btn-hover">Read More</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="blog-body">
-                        <h5 class="package-name"><a href="#">{{ blog_post.title }}</a></h5>
-                        <p>{{ blog_post.summary }}</p>
-                    </div>
-                    <div class="blog-footer">
-                        <a href="{% url 'content:blog_post' slug=blog_post.slug %}" class="main-btn btn-hover">Read More</a>
-                    </div>
-                </div>
-            </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
