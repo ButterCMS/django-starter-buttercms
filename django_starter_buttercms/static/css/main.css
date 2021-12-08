@@ -1047,10 +1047,8 @@ p {
   }
 }
 .cta-section .left-image {
-  position: absolute;
   left: 0px;
   bottom: 0;
-  width: 45%;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .cta-section .left-image {
@@ -1060,7 +1058,7 @@ p {
   }
 }
 .cta-section .left-image img {
-  width: 100%;
+  max-width: 100%;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .cta-section .left-image img {
@@ -1363,7 +1361,7 @@ p {
     margin-top: 42px;
   }
 }
-  @media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .single-post-thumbnail {
     margin-top: 52px;
   }
@@ -1395,7 +1393,7 @@ p {
 
 @media only screen and (min-width: 768px) {
   .blog-roll-card .single-post-thumbnail {
-  margin-top: 30px;
+    margin-top: 30px;
   }
 }
 
