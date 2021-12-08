@@ -1,35 +1,46 @@
-# Django Starter ButterCMS
+# Django + ButterCMS Starter Project
 
-Django starter project using ButterCMS. The project uses the sample content that is automatically created when you
-create your free trial account on ButterCMS.
+This Django starter project fully integrates with dynamic sample content from your ButterCMS account, including main menu, pages, blog posts, categories, and tags, and all with a beautiful, custom theme with already-implemented search functionality. All of the included sample content is automatically created in your account dashboard when you sign up for a free trial of ButterCMS.
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/pydanny/cookiecutter-django/)
 
 ## 1) Installation
 
-Create a virtual environment and install project requirements.
+First, create a virtual environment and install the dependencies by running the 
+below commands. *(Note: This project requires pip wheel. Depending on
+your version of pip, wheel may not be included; therefore, the command to install wheel is given below.)*
 
 ```bash
 $ python3 -m venv butterenv
 $ source butterenv/bin/activate
+$ pip install wheel
 $ pip install -r requirements/local.txt
 ```
 
-### 2) Set ButterCMS API Token
+### 2) Set Database Environmental Variable
 
-Get [your free ButterCMS API token](https://buttercms.com/join/). To fetch your ButterCMS content, add your API token as an environment variable. Set `BUTTERCMS_API_TOKEN=<Your API Token>` in `.env`. .
+Because all of your data is fetched from Butter, there's no need for a database
+at this time (although you can of course set one up later!). For now, set the
+DATABASE_URL environmental variable to skip Django database creation and checks.
 
-To fetch your ButterCMS content, add your API token as an environment variable. You can find it in your ButterCMS [account settings](https://buttercms.com/settings/). If you don't already have a ButterCMS account, [get one for free](https://buttercms.com/join/).
+```bash
+$ echo 'DATABASE_URL=sqlite:///database.sqlite' >> .env
+```
 
+### 3) Set ButterCMS API Token
+
+To fetch your ButterCMS content, add your API token as an environment variable. You can find it in your butterCMS account under settings -> API Token. (If you don't already have a ButterCMS account, you can get one free [here](https://buttercms.com/join/).) 
 
 ```bash
 $ echo 'BUTTERCMS_API_TOKEN=your_token' >> .env
 ```
 
-### 3) Run Django Local Development Server
+### 4) Run Django Local Development Server
+
+To view the app in the browser, you'll need to run the local development server:
 
 ```bash
 $ python manage.py runserver
 ```
 
-Your starter is live [http://127.0.0.1:8000/](http://127.0.0.1:8000/) !
+Congratulations! Your starter project is now live and can be viewed at [http://127.0.0.1:8000/](http://127.0.0.1:8000/) !
