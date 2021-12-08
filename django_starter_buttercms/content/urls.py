@@ -12,5 +12,6 @@ urlpatterns = [
     path("blog/category/<str:category_slug>/", view=ButterCMSBlogView.as_view(), name="blog_category"),
     path("blog/tag/<str:tag_slug>/", view=ButterCMSBlogView.as_view(), name="blog_tags"),
     # And a path for all the other slugs, that can be accessed directly
+    path("blog/search/?q=<str:query>/", view=ButterCMSBlogView.as_view(), name="blog_search"),
     path("<str:slug>/", view=ButterCMSPageView.as_view(), name="buttercms_view"),
 ]

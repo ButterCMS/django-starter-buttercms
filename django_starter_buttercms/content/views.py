@@ -61,7 +61,7 @@ class ButterCMSPageView(TemplateView):
 
         return page_data
 
-    def get_blog_posts(self, category_slug=None, tag_slug=None):
+    def get_blog_posts(self, category_slug=None, tag_slug=None, query=''):
         """
         Return a list of blog posts from ButterCMS. Raise 404 if the page is not found
         """
@@ -70,7 +70,10 @@ class ButterCMSPageView(TemplateView):
             kwargs.update({"category_slug": category_slug})
         if tag_slug:
             kwargs.update({"tag_slug": tag_slug})
-        blog_posts = client.posts.all()
+        if query:
+            blog_posts = client.posts.search(query)
+        else:
+            blog_posts = client.posts.all()
         blog_posts_data = blog_posts.get("data", [])
 
         # If "data" is not in the payload, the page was not fetched successfully
@@ -108,14 +111,13 @@ class ButterCMSBlogView(ButterCMSPageView):
         if settings.BUTTERCMS_API_TOKEN:
             category_slug = kwargs.get("category_slug")
             tag_slug = kwargs.get("tag_slug")
+            query = kwargs.get("query")
             context["blog_posts"] = self.get_blog_posts(
-                category_slug=category_slug, tag_slug=tag_slug
-            )
+                category_slug=category_slug, tag_slug=tag_slug, query=query)
+            context["query"] = query    
             context["category_slug"] = category_slug
             context["tag_slug"] = tag_slug
-
             context["categories"] = client.categories.all().get("data")
-
             context["navigation_menu"] = self.get_navigation_menu()
         else:
             context["no_token"] = True
