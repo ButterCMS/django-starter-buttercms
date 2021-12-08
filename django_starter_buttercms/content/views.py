@@ -109,12 +109,13 @@ class ButterCMSBlogView(ButterCMSPageView):
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
+            query = request.GET.get('q')
+            print(query)
             category_slug = kwargs.get("category_slug")
             tag_slug = kwargs.get("tag_slug")
-            query = kwargs.get("query")
             context["blog_posts"] = self.get_blog_posts(
                 category_slug=category_slug, tag_slug=tag_slug, query=query)
-            context["query"] = query    
+            context['query'] = query
             context["category_slug"] = category_slug
             context["tag_slug"] = tag_slug
             context["categories"] = client.categories.all().get("data")
@@ -123,7 +124,6 @@ class ButterCMSBlogView(ButterCMSPageView):
             context["no_token"] = True
 
         return self.render_to_response(context)
-
 
 class ButterCMSBlogPostView(ButterCMSBlogView):
     template_name = "content/blog-post.html"
