@@ -1,12 +1,15 @@
 # Django + ButterCMS Starter Project
 
-This Django starter project fully integrates with dynamic sample content from your ButterCMS account, including main menu, pages, blog posts, categories, and tags, and all with a beautiful, custom theme with already-implemented search functionality. All of the included sample content is automatically created in your account dashboard when you sign up for a free trial of ButterCMS.
+This Django starter project fully integrates with dynamic sample content from your ButterCMS account, including main menu, pages, blog posts, categories, and tags, and all with a beautiful, custom theme with already-implemented search functionality. All of the included sample content is automatically created in your account dashboard when you 
+[sign up for a free trial](https://buttercms.com/join/) of ButterCMS.
+
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/pydanny/cookiecutter-django/)
 
+
 ## 1) Installation
 
-First, create a virtual environment and install the dependencies by running the 
+First, create a virtual environment and install dependencies by running the 
 below commands. *(Note: This project requires pip wheel. Depending on
 your version of pip, wheel may not be included; therefore, the command to install wheel is given below.)*
 
