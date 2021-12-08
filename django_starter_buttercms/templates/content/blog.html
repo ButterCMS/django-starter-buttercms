@@ -87,18 +87,18 @@
                         <div class="col-12 col-lg-6">
                             <div class="blog-roll-card">
                                 <div class="blog-roll-card-meta">
-                                    <h2 class="blog-roll-card-header"><a href="#">{{ blog_post.title }}</a></h2>
+                                    <h2 class="blog-roll-card-header"><a href="{% url 'content:blog_post' slug=blog_post.slug %}">{{ blog_post.title }}</a></h2>
                                     <ul class="blog-roll-card-meta-info">
                                         <li>
                                             <a href="javascript:void(0)"><img src="{% if blog_post.author.profile_image %}{{ blog_post.author.profile_image }}{% else %}{% static 'images/team/team-1.png' %}{% endif %}" alt="#">{{ blog_post.author.first_name }} {{ blog_post.author.last_name }}</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)"><i class="lni lni-calendar"></i>{{ blog_post.published }}
+                                            <a href="javascript:void(0)"><i class="lni lni-calendar"></i> {{ blog_post.published }}
                                         </a>
                                         </li>
                                         {% for tag in blog_post.tags %}
                                         <li>
-                                            <a href="{% url 'content:blog_tags' tag.slug %}"><i class="lni lni-tag"></i>{{ tag.name }}</a>
+                                            <a href="{% url 'content:blog_tags' tag.slug %}"><i class="lni lni-tag"></i> {{ tag.name }}</a>
                                         </li>
                                         {% endfor %}
                                     </ul>
