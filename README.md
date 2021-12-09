@@ -14,6 +14,7 @@ below commands. *(Note: This project requires pip wheel. Depending on
 your version of pip, wheel may not be included; therefore, the command to install wheel is given below.)*
 
 ```bash
+$ git clone https://github.com/ButterCMS/django-starter-buttercms.git
 $ python3 -m venv butterenv
 $ source butterenv/bin/activate
 $ pip install wheel
