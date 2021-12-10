@@ -197,13 +197,14 @@ CSP_FRAME_ANCESTORS = ["'self'", "https://buttercms.com"]
 # Enable loading resources from CDN
 CSP_DEFAULT_SRC = [
     "'self'",
+    "'unsafe-inline'",
     "https://fonts.googleapis.com",
     "https://fonts.gstatic.com",
     "https://cdn.buttercms.com",
     "https://buttercms.com",
     "https://d2devwt40at1e2.cloudfront.net",
+    "https://cdnjs.cloudflare.com",
 ]
-
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
