@@ -67,9 +67,16 @@ $ brew tap heroku/brew && brew install heroku
 
 ```
 3. Heroku create
-
 $ heroku config:set DISABLE_COLLECTSTATIC=1
-echo "web: gunicorn mysite.wsgi --log-file -" >> Procfile
+$ heroku config:set DJANGO_SECRET_KEY="YOUR_SECRET_KEY_VALUE"
+$ echo "web: gunicorn config.wsgi --log-file -" >> Procfile
+
+REDIS  URL why?
+$ heroku config:set DJANGO_ADMIN_URL="admin"
+$ heroku config:set DJANGO_ALLOWED_HOSTS=".herokuapp.com"
+
+
+
 
 
 4. git push heroku main
