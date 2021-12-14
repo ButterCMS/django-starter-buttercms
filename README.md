@@ -33,7 +33,7 @@ $ echo 'DATABASE_URL=sqlite:///database.sqlite' >> .env
 
 ### 3) Set ButterCMS API Token
 
-To fetch your ButterCMS content, add your API token as an environment variable. You can find it in your butterCMS account under settings -> API Token. (If you don't already have a ButterCMS account, you can get one free [here](https://buttercms.com/join/).) 
+To fetch your ButterCMS content, add your API token as an environment variable. 
 
 ```bash
 $ echo 'BUTTERCMS_API_TOKEN=your_token' >> .env
@@ -46,5 +46,3 @@ To view the app in the browser, you'll need to run the local development server:
 ```bash
 $ python manage.py runserver
 ```
-
-Congratulations! Your starter project is now live and can be viewed at [http://127.0.0.1:8000/](http://127.0.0.1:8000/) !
