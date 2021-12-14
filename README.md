@@ -46,3 +46,42 @@ To view the app in the browser, you'll need to run the local development server:
 ```bash
 $ python manage.py runserver
 ```
+
+## 5. Deploy on Heroku
+
+Your starter app can be deployed to a host like Heroku
+in just a few steps:
+
+
+1. Create a Heroku account at https://signup.heroku.com
+2. Download [the CLI](https://devcenter.heroku.com/articles/heroku-cli):
+
+Ubuntu 16+:
+```bash
+$ curl https://cli-assets.heroku.com/install.sh | sh
+```
+
+MacOS:
+```bash
+$ brew tap heroku/brew && brew install heroku
+
+```
+3. Heroku create
+$ heroku config:set DISABLE_COLLECTSTATIC=1
+$ heroku config:set DJANGO_SECRET_KEY="YOUR_SECRET_KEY_VALUE"
+$ echo "web: gunicorn config.wsgi --log-file -" >> Procfile
+
+REDIS  URL why?
+$ heroku config:set DJANGO_ADMIN_URL="admin"
+$ heroku config:set DJANGO_ALLOWED_HOSTS=".herokuapp.com"
+
+
+
+
+
+4. git push heroku main
+3. Add the API key as a secret `vercel secrets add butter-cms-api-key "YOUR_API_KEY"`
+4. Run `vercel` at the project root
+[ End Example Steps ]
+[ End Optional Step - Quick Deployment ]
+-->
