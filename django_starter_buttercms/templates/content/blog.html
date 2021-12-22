@@ -50,28 +50,28 @@
                         </ul>
                     </div>
                     <!-- End Nav -->
+                    {% elif query %}
+                    <!-- Breadcrumb nav for search view -->
+                    <div class="section-title text-center">
+                        <h2>Search Results</h2>
+                        <ul class="breadcrumb-nav">
+                            <li><a href="{% url 'content:home' %}">Home</a></li>
+                            <li><a href="{% url 'content:blog' %}">Blog</a></li>
+                            <li>Seach: "{{query}}"</li>
+                        </ul>
+                    </div>
+                    <!-- End Nav -->
                     {% else %}
                     <!-- Breadcrumb nav for main blog.html view -->
                     <div class="section-title text-center">
-                        <h2>{% if search_query %}Blog posts containing "{{ search_query }}"{% else %}All Blog Posts{% endif %}</h2>
+                        <h2>All Blog Posts</h2>
                         <ul class="breadcrumb-nav">
                             <li><a href="{% url 'content:home' %}">Home</a></li>
-                            <li>{% if search_query %}Blog posts containing "{{ search_query }}"{% else %}All Blog Posts{% endif %}</li>
+                            <li>All blog posts</li>
                         </ul>
                     </div>
                     <!-- End Nav -->
                     {% endif %}
-
-                    <!-- Breadcrumb nav for search view -->
-                    <!-- <div class="section-title text-center">
-                        <h2>Search Results</h2>
-                        <ul class="breadcrumb-nav">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li>Seach: Search Term</li>
-                        </ul>
-                    </div> -->
-                    <!-- End Nav -->
 
                 </div>
             </div>
@@ -87,18 +87,18 @@
                         <div class="col-12 col-lg-6">
                             <div class="blog-roll-card">
                                 <div class="blog-roll-card-meta">
-                                    <h2 class="blog-roll-card-header"><a href="#">{{ blog_post.title }}</a></h2>
+                                    <h2 class="blog-roll-card-header"><a href="{% url 'content:blog_post' slug=blog_post.slug %}">{{ blog_post.title }}</a></h2>
                                     <ul class="blog-roll-card-meta-info">
                                         <li>
                                             <a href="javascript:void(0)"><img src="{% if blog_post.author.profile_image %}{{ blog_post.author.profile_image }}{% else %}{% static 'images/team/team-1.png' %}{% endif %}" alt="#">{{ blog_post.author.first_name }} {{ blog_post.author.last_name }}</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)"><i class="lni lni-calendar"></i>{{ blog_post.published }}
+                                            <a href="javascript:void(0)"><i class="lni lni-calendar"></i> {{ blog_post.published }}
                                         </a>
                                         </li>
                                         {% for tag in blog_post.tags %}
                                         <li>
-                                            <a href="{% url 'content:blog_tags' tag.slug %}"><i class="lni lni-tag"></i>{{ tag.name }}</a>
+                                            <a href="{% url 'content:blog_tags' tag.slug %}"><i class="lni lni-tag"></i> {{ tag.name }}</a>
                                         </li>
                                         {% endfor %}
                                     </ul>

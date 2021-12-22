@@ -11,12 +11,13 @@
     <!-- Place favicon.ico in the root directory -->
 
     <!-- ========================= CSS here ========================= -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/lineicons.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/animate.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
-  </head>
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/lineicons.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}">
+    {% endblock css %}
+    </head>
   <body>
     <!--[if lte IE 9]>
       <p class="browserupgrade">
@@ -145,7 +146,7 @@
                         <h3>About Us</h3>
                         <ul class="links">
                             {% for menu_item in navigation_menu.menu_items %}
-                            <li><a href="{{ menu_item.url }}">{{ menu_item.label }}</a></li>
+                            <li><a href="/{{ menu_item.url }}">{{ menu_item.label }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -172,10 +173,16 @@
     </a>
 
     <!-- ========================= JS here ========================= -->
+    {% block js %}
+    <!-- =================== JS All Templates ========================= -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/tiny-slider.js' %}"></script>
-    <script src="{% static 'js/wow.min.js' %}"></script>
     <script src="{% static 'js/polyfill.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+
+	<!-- ================= JS Index HTML only ========================= -->
+	<script src="{% static 'js/tiny-slider.js' %}"></script>
+    <script src="{% static 'js/client-slider.js' %}"></script>
+	<script src="{% static 'js/section-menu.js' %}"></script>
+    {% endblock js %}
   </body>
 </html>

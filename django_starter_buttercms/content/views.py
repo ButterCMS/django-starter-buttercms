@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.http import Http404
+from django.utils import dateparse
 from django.template.exceptions import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.views.generic import TemplateView
@@ -72,6 +73,8 @@ class ButterCMSPageView(TemplateView):
             kwargs.update({"tag_slug": tag_slug})
         blog_posts = client.posts.all(params=kwargs)
         blog_posts_data = blog_posts.get("data", [])
+        for post in blog_posts_data:
+            post['published'] = dateparse.parse_datetime(post['published'])
 
         # If "data" is not in the payload, the page was not fetched successfully
         if blog_posts_data is None:
@@ -182,6 +185,8 @@ class ButterCMSBlogPostView(ButterCMSBlogView):
         """
         butter_post = client.posts.get(slug)
         post_data = butter_post.get("data")
+        post_data['published'] = dateparse.parse_datetime(post_data['published'])
+
 
         # If "data" is not in the payload, the page was not fetched successfully
         if post_data is None:
