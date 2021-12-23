@@ -117,8 +117,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
-    # "django.middleware.clickjacking.XFrameOptionsMiddleware",  # Replaced by CSP
-    "csp.middleware.CSPMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 # STATIC
@@ -192,19 +191,7 @@ CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
-# Enable iframing for ButterCMS in-page previews
-CSP_FRAME_ANCESTORS = ["'self'", "https://buttercms.com"]
-# Enable loading resources from CDN
-CSP_DEFAULT_SRC = [
-    "'self'",
-    "'unsafe-inline'",
-    "https://fonts.googleapis.com",
-    "https://fonts.gstatic.com",
-    "https://cdn.buttercms.com",
-    "https://buttercms.com",
-    "https://d2devwt40at1e2.cloudfront.net",
-    "https://cdnjs.cloudflare.com",
-]
+
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
