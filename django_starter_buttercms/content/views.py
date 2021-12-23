@@ -7,6 +7,8 @@ from django.views.generic import TemplateView
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 from common.buttercms import client
+import logging
+logger = logging.getLogger(__name__)
 
 class ButterCMSPageView(TemplateView):
     template_name = "content/page.html"
@@ -51,10 +53,19 @@ class ButterCMSPageView(TemplateView):
         """
         Return page from ButterCMS. Raise 404 if the page is not found
         """
+    def get_page(self, slug, preview=None):
+        """
+        Return page from ButterCMS. Raise 404 if the page is not found
+        """
         params = {"preview": 1} if preview else None
         butter_page = client.pages.get(
             "*", slug, params=params
         )  # Use "*" to search through all Page Types
+        # if message turens invalid token
+        if 'detail' in butter_page:
+            if butter_page['detail'] == "Invalid token.":
+                logger.error(
+                    """***Your Butter token is set to an invalid value. Please verify your token is correct.***""")
         page_data = butter_page.get("data")
 
         # If "data" is not in the payload, the page was not fetched successfully
