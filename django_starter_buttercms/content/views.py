@@ -85,12 +85,13 @@ class ButterCMSPageView(TemplateView):
             kwargs.update({"tag_slug": tag_slug})
         blog_posts = client.posts.all(params=kwargs)
         blog_posts_data = blog_posts.get("data", [])
-        for post in blog_posts_data:
-            post['published'] = dateparse.parse_datetime(post['published'])
 
         # If "data" is not in the payload, the page was not fetched successfully
         if blog_posts_data is None:
             raise Http404
+        else: 
+            for post in blog_posts_data:
+                post['published'] = dateparse.parse_datetime(post['published'])
 
         return blog_posts_data
 
@@ -103,6 +104,8 @@ class ButterCMSPageView(TemplateView):
         kwargs = {"page_size": 3, "page": 1, "exclude_body": "true"}
         blog_posts = client.posts.search(query=query, params=kwargs)
         blog_posts_data = blog_posts.get("data", [])
+        for post in blog_posts_data:
+            post['published'] = dateparse.parse_datetime(post['published'])
 
         return blog_posts_data
 
