@@ -53,14 +53,14 @@
                         </ul>
                     </div>
                     <!-- End Nav -->
-                    {% elif query %}
+                    {% elif search_query %}
                     <!-- Breadcrumb nav for search view -->
                     <div class="section-title text-center">
                         <h2>Search Results</h2>
                         <ul class="breadcrumb-nav">
                             <li><a href="{% url 'content:home' %}">Home</a></li>
                             <li><a href="{% url 'content:blog' %}">Blog</a></li>
-                            <li>Seach: "{{query}}"</li>
+                            <li>Seach: "{{search_query}}"</li>
                         </ul>
                     </div>
                     <!-- End Nav -->
