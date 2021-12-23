@@ -4,13 +4,14 @@ from django.utils import dateparse
 from django.template.exceptions import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.views.generic import TemplateView
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 from common.buttercms import client
-
 
 class ButterCMSPageView(TemplateView):
     template_name = "content/page.html"
 
+    @xframe_options_exempt
     def get(self, request, slug, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
@@ -116,6 +117,7 @@ class ButterCMSPageView(TemplateView):
 class ButterCMSBlogView(ButterCMSPageView):
     template_name = "content/blog.html"
 
+    @xframe_options_exempt
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
@@ -141,6 +143,7 @@ class ButterCMSBlogView(ButterCMSPageView):
 class ButterCMSBlogSearchView(ButterCMSPageView):
     template_name = "content/blog.html"
 
+    @xframe_options_exempt
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
@@ -162,6 +165,7 @@ class ButterCMSBlogSearchView(ButterCMSPageView):
 class ButterCMSBlogPostView(ButterCMSBlogView):
     template_name = "content/blog-post.html"
 
+    @xframe_options_exempt
     def get(self, request, slug, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
