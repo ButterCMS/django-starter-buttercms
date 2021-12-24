@@ -25,7 +25,7 @@
 
 {% block main %}
         <!-- ========================= blog-roll section start ========================= -->
-
+    {% if not no_token %}
     <section id="blog-roll" class="blog-roll-nav">
         <div class="container">
             <div class="row justify-content-center">
@@ -128,6 +128,7 @@
         </div>
     </section>
     <!-- ========================= blog-section end ========================= -->
+    {% endif %}
 {% endblock %}
 
 {% block js_extra %}

@@ -24,6 +24,7 @@
 {% endblock %}
 
 {% block main %}
+    {% if not no_token %}
     {% if blog_post %}
         <!-- ========================= blog-section start ========================= -->
 
@@ -80,6 +81,7 @@
             </div>
         </section>
         <!-- ========================= blog-section end ========================= -->
+    {% endif %}
     {% endif %}
     <!-- ========================= Body components end ========================= -->
 {% endblock %}
