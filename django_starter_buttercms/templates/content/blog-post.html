@@ -67,9 +67,11 @@
                                     {% endfor %}
                                 </ul>
                             </div>
+                            {% if blog_post.featured_image %}
                             <div class="single-post-thumbnail">
                                 <img src="{{ blog_post.featured_image }}" alt="{{ blog_post.featured_image_alt }}">
                             </div>
+                            {% endif %}
                             <div class="single-post-body">
                                 {{ blog_post.body|safe }}
                             </div>

@@ -106,9 +106,11 @@
                                         {% endfor %}
                                     </ul>
                                 </div>
+                                {% if blog_post.featured_image %}
                                 <div class="single-post-thumbnail">
                                     <img src="{{ blog_post.featured_image }}" alt="">
                                 </div>
+                                {% endif %}
                                 <div class="blog-roll-card-body">
                                     <p>{{ blog_post.summary }}</p>
                                 </div>
