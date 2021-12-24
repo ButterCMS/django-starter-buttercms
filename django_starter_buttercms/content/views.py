@@ -163,7 +163,7 @@ class ButterCMSBlogSearchView(ButterCMSPageView):
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
-            search_query = request.GET.get("search_query")
+            search_query = request.GET.get("q")
             context["blog_posts"] = self.search_blog_posts(search_query)
             context["search_query"] = search_query
 
