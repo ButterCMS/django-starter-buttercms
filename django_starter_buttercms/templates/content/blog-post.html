@@ -62,7 +62,7 @@
                                     </li>
                                     {% for tag in blog_post.tags %}
                                     <li>
-                                        <a href="javascript:void(0)"><i class="lni lni-tag"></i>{{ tag.name }}</a>
+                                        <a href="{% url 'content:blog_tags' tag.slug %}"><i class="lni lni-tag"></i>{{ tag.name }}</a>
                                     </li>
                                     {% endfor %}
                                 </ul>
