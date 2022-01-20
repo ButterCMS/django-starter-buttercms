@@ -6,31 +6,21 @@ This Django starter project fully integrates with dynamic sample content from yo
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/pydanny/cookiecutter-django/)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ButterCMS/django-starter-buttercms/&env[BUTTERCMS_API_TOKEN]=check%20https://buttercms.com/settings)
+
 ## 1) Installation
 
 First, create a virtual environment and install dependencies by running the 
-below commands. *(Note: This project requires pip wheel. Depending on
-your version of pip, wheel may not be included; therefore, the command to install wheel is given below.)*
+below commands.
 
 ```bash
 $ git clone https://github.com/ButterCMS/django-starter-buttercms.git
-$ python3 -m venv butterenv
-$ source butterenv/bin/activate
-$ pip install wheel
-$ pip install -r requirements/local.txt
+$ cd django-starter-buttercms
+$ python3 -m venv butterenv && source butterenv/bin/activate
+$ pip install --upgrade pip && pip install -r requirements.txt
 ```
 
-### 2) Set Database Environmental Variable
-
-Because all of your data is fetched from Butter, there's no need for a database
-at this time (although you can of course set one up later!). For now, set the
-DATABASE_URL environmental variable to skip Django database creation and checks.
-
-```bash
-$ echo 'DATABASE_URL=sqlite:///database.sqlite' >> .env
-```
-
-### 3) Set ButterCMS API Token
+### 2) Set ButterCMS API Token
 
 To fetch your ButterCMS content, add your API token as an environment variable. 
 
@@ -38,7 +28,7 @@ To fetch your ButterCMS content, add your API token as an environment variable.
 $ echo 'BUTTERCMS_API_TOKEN=your_token' >> .env
 ```
 
-### 4) Run Django Local Development Server
+### 3) Run Django Local Development Server
 
 To view the app in the browser, you'll need to run the local development server:
 
@@ -46,14 +36,19 @@ To view the app in the browser, you'll need to run the local development server:
 $ python manage.py runserver
 ```
 
-### 5) Deploy on Heroku
+Congratulations! Your starter project is now live at: [http://localhost:8000/](http://localhost:8000/)
 
-Your starter app can be deployed to Heroku in just a few steps:
+### 4) Deploy on Heroku
 
+Our starter app can be deployed to Heroku with the click of a button:
 
 1. Create a Heroku account at https://signup.heroku.com.
-2. Push your starter app to Github.
-3. Navigate to this README file in the browser, click the button below, 
-and fill in an app name and your Butter API token. Then click "deploy".
+2. Click the button below and fill in an app name and your Butter API token. Then click "deploy".
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ButterCMS/django-starter-buttercms/&env[BUTTERCMS_API_TOKEN]=check%20https://buttercms.com/settings)
+
+### 5.) Previewing and Draft Changes
+
+Your starter app allows you to preview draft changes made to content in your
+ButterCMS.com account by default; to see draft changes, add '?preview=1' to the end of any 
+URL (e.g., http://localhost:8000/?preview=1)
