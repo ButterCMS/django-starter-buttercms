@@ -4,6 +4,9 @@
 {% block title %}Sample Blog with Components - powered by ButterCMS{% endblock %}
 {% block description %}Sample Landing Page with Components - powered by ButterCMS{% endblock %}
 
+{% block css_extra %}
+{% endblock css_extra %}
+
 {% block navigation_menu %}
 
 <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
@@ -22,7 +25,7 @@
 
 {% block main %}
         <!-- ========================= blog-roll section start ========================= -->
-
+    {% if not no_token %}
     <section id="blog-roll" class="blog-roll-nav">
         <div class="container">
             <div class="row justify-content-center">
@@ -50,14 +53,14 @@
                         </ul>
                     </div>
                     <!-- End Nav -->
-                    {% elif query %}
+                    {% elif search_query %}
                     <!-- Breadcrumb nav for search view -->
                     <div class="section-title text-center">
                         <h2>Search Results</h2>
                         <ul class="breadcrumb-nav">
                             <li><a href="{% url 'content:home' %}">Home</a></li>
                             <li><a href="{% url 'content:blog' %}">Blog</a></li>
-                            <li>Seach: "{{query}}"</li>
+                            <li>Seach: "{{search_query}}"</li>
                         </ul>
                     </div>
                     <!-- End Nav -->
@@ -103,9 +106,11 @@
                                         {% endfor %}
                                     </ul>
                                 </div>
+                                {% if blog_post.featured_image %}
                                 <div class="single-post-thumbnail">
                                     <img src="{{ blog_post.featured_image }}" alt="">
                                 </div>
+                                {% endif %}
                                 <div class="blog-roll-card-body">
                                     <p>{{ blog_post.summary }}</p>
                                 </div>
@@ -125,4 +130,8 @@
         </div>
     </section>
     <!-- ========================= blog-section end ========================= -->
+    {% endif %}
 {% endblock %}
+
+{% block js_extra %}
+{% endblock js_extra %}

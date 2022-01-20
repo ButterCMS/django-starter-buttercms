@@ -4,6 +4,9 @@
 {% block title %}{{ blog_post.seo_title }}{% endblock %}
 {% block description %}{{ blog_post.meta_description }}{% endblock %}
 
+{% block css_extra %}
+{% endblock css_extra %}
+
 {% block navigation_menu %}
 
 <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
@@ -21,6 +24,7 @@
 {% endblock %}
 
 {% block main %}
+    {% if not no_token %}
     {% if blog_post %}
         <!-- ========================= blog-section start ========================= -->
 
@@ -58,14 +62,16 @@
                                     </li>
                                     {% for tag in blog_post.tags %}
                                     <li>
-                                        <a href="javascript:void(0)"><i class="lni lni-tag"></i>{{ tag.name }}</a>
+                                        <a href="{% url 'content:blog_tags' tag.slug %}"><i class="lni lni-tag"></i>{{ tag.name }}</a>
                                     </li>
                                     {% endfor %}
                                 </ul>
                             </div>
+                            {% if blog_post.featured_image %}
                             <div class="single-post-thumbnail">
                                 <img src="{{ blog_post.featured_image }}" alt="{{ blog_post.featured_image_alt }}">
                             </div>
+                            {% endif %}
                             <div class="single-post-body">
                                 {{ blog_post.body|safe }}
                             </div>
@@ -78,5 +84,9 @@
         </section>
         <!-- ========================= blog-section end ========================= -->
     {% endif %}
+    {% endif %}
     <!-- ========================= Body components end ========================= -->
 {% endblock %}
+
+{% block js_extra %}
+{% endblock js_extra %}

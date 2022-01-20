@@ -4,13 +4,16 @@ from django.utils import dateparse
 from django.template.exceptions import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.views.generic import TemplateView
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 from common.buttercms import client
-
+import logging
+logger = logging.getLogger(__name__)
 
 class ButterCMSPageView(TemplateView):
     template_name = "content/page.html"
 
+    @xframe_options_exempt
     def get(self, request, slug, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
@@ -50,10 +53,19 @@ class ButterCMSPageView(TemplateView):
         """
         Return page from ButterCMS. Raise 404 if the page is not found
         """
+    def get_page(self, slug, preview=None):
+        """
+        Return page from ButterCMS. Raise 404 if the page is not found
+        """
         params = {"preview": 1} if preview else None
         butter_page = client.pages.get(
             "*", slug, params=params
         )  # Use "*" to search through all Page Types
+        # if message turens invalid token
+        if 'detail' in butter_page:
+            if butter_page['detail'] == "Invalid token.":
+                logger.error(
+                    """***Your Butter token is set to an invalid value. Please verify your token is correct.***""")
         page_data = butter_page.get("data")
 
         # If "data" is not in the payload, the page was not fetched successfully
@@ -73,12 +85,13 @@ class ButterCMSPageView(TemplateView):
             kwargs.update({"tag_slug": tag_slug})
         blog_posts = client.posts.all(params=kwargs)
         blog_posts_data = blog_posts.get("data", [])
-        for post in blog_posts_data:
-            post['published'] = dateparse.parse_datetime(post['published'])
 
         # If "data" is not in the payload, the page was not fetched successfully
         if blog_posts_data is None:
             raise Http404
+        else: 
+            for post in blog_posts_data:
+                post['published'] = dateparse.parse_datetime(post['published'])
 
         return blog_posts_data
 
@@ -91,6 +104,8 @@ class ButterCMSPageView(TemplateView):
         kwargs = {"page_size": 3, "page": 1, "exclude_body": "true"}
         blog_posts = client.posts.search(query=query, params=kwargs)
         blog_posts_data = blog_posts.get("data", [])
+        for post in blog_posts_data:
+            post['published'] = dateparse.parse_datetime(post['published'])
 
         return blog_posts_data
 
@@ -116,6 +131,7 @@ class ButterCMSPageView(TemplateView):
 class ButterCMSBlogView(ButterCMSPageView):
     template_name = "content/blog.html"
 
+    @xframe_options_exempt
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
@@ -141,12 +157,13 @@ class ButterCMSBlogView(ButterCMSPageView):
 class ButterCMSBlogSearchView(ButterCMSPageView):
     template_name = "content/blog.html"
 
+    @xframe_options_exempt
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
-            search_query = request.GET.get("search_query")
+            search_query = request.GET.get("q")
             context["blog_posts"] = self.search_blog_posts(search_query)
             context["search_query"] = search_query
 
@@ -162,6 +179,7 @@ class ButterCMSBlogSearchView(ButterCMSPageView):
 class ButterCMSBlogPostView(ButterCMSBlogView):
     template_name = "content/blog-post.html"
 
+    @xframe_options_exempt
     def get(self, request, slug, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
