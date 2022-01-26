@@ -61,7 +61,7 @@ class ButterCMSPageView(TemplateView):
         butter_page = client.pages.get(
             "*", slug, params=params
         )  # Use "*" to search through all Page Types
-        # if message turens invalid token
+        # log error if token is invalid
         if 'detail' in butter_page:
             if butter_page['detail'] == "Invalid token.":
                 logger.error(
