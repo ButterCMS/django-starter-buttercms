@@ -7,8 +7,8 @@
     <title>{% block title %}Powered by ButterCMS{% endblock %}</title>
     <meta name="description" content="{% block description %}Powered by ButterCMS{% endblock %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:image" content="{% block seo_featured_image %}{% static 'images/butter-favicon.png' %}{% endblock %}"/>
     <link rel="shortcut icon" type="image/x-icon" href="https://buttercms.com/static/v2/images/favicon.png"/>
-    <!-- Place favicon.ico in the root directory -->
 
     <!-- ========================= CSS here ========================= -->
     {% block css_all %}

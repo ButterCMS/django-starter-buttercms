@@ -16,6 +16,14 @@ urlpatterns = [
         {"slug": "landing-page-with-components"},
         name="home",
     ),
+    # Let's also add a backup landing-page route. This allows the user to create and test multiple 
+    # landing pages and allows for configuration of both '/' and '/landing-page/' in Butter
+    # iframe preview panel.
+    path (
+        "landing-page/<str:slug>/",
+        ButterCMSPageView.as_view(),
+        name="landing-pages",
+    ),
     # Blog paths
     path("blog/", ButterCMSBlogView.as_view(), name="blog"),
     path("blog/search/", ButterCMSBlogSearchView.as_view(), name="blog_search"),

@@ -2,7 +2,12 @@
 {% load static %}
 
 {% block title %}{{ blog_post.seo_title }}{% endblock %}
-{% block description %}{{ blog_post.meta_description }}{% endblock %}
+{% if blog_post.meta_description %}
+    {% block description %}{{ blog_post.meta_description }}{% endblock %}
+{% endif %}
+{% if blog_post.featured_image %}
+    {% block seo_featured_image %}{{ blog_post.featured_image }}{% endblock seo_featured_image %}
+{% endif %}
 
 {% block css_extra %}
 {% endblock css_extra %}
