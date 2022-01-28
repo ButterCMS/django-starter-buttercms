@@ -40,19 +40,13 @@ class ButterCMSPageView(TemplateView):
                 raise Http404
 
             context["page"] = page
-
             context["blog_posts"] = self.get_blog_posts()
-
             context["navigation_menu"] = self.get_navigation_menu()
         else:
             context["no_token"] = True
 
         return self.render_to_response(context)
 
-    def get_page(self, slug, preview=None):
-        """
-        Return page from ButterCMS. Raise 404 if the page is not found
-        """
     def get_page(self, slug, preview=None):
         """
         Return page from ButterCMS. Raise 404 if the page is not found
@@ -74,7 +68,7 @@ class ButterCMSPageView(TemplateView):
 
         return page_data
 
-    def get_blog_posts(self, category_slug=None, tag_slug=None):
+    def get_blog_posts(self, category_slug=None, tag_slug=None, preview=None):
         """
         Return a list of blog posts from ButterCMS. Raise 404 if the page is not found
         """
@@ -83,6 +77,8 @@ class ButterCMSPageView(TemplateView):
             kwargs.update({"category_slug": category_slug})
         if tag_slug:
             kwargs.update({"tag_slug": tag_slug})
+        if preview:
+            kwargs.update({"preview": preview})
         blog_posts = client.posts.all(params=kwargs)
         blog_posts_data = blog_posts.get("data", [])
 
@@ -102,6 +98,8 @@ class ButterCMSPageView(TemplateView):
         Raise 404 if the page is not found.
         """
         kwargs = {"page_size": 3, "page": 1, "exclude_body": "true"}
+        if preview:
+            kwargs.update({"preview": preview})
         blog_posts = client.posts.search(query=query, params=kwargs)
         blog_posts_data = blog_posts.get("data", [])
         for post in blog_posts_data:
@@ -137,16 +135,15 @@ class ButterCMSBlogView(ButterCMSPageView):
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
+            preview = request.GET.get("preview")
             category_slug = kwargs.get("category_slug")
             tag_slug = kwargs.get("tag_slug")
             context["blog_posts"] = self.get_blog_posts(
-                category_slug=category_slug, tag_slug=tag_slug
+                category_slug=category_slug, tag_slug=tag_slug, preview=preview
             )
             context["category_slug"] = category_slug
             context["tag_slug"] = tag_slug
-
             context["categories"] = client.categories.all().get("data")
-
             context["navigation_menu"] = self.get_navigation_menu()
         else:
             context["no_token"] = True
@@ -164,11 +161,10 @@ class ButterCMSBlogSearchView(ButterCMSPageView):
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             search_query = request.GET.get("q")
+            preview = request.GET.get("preview")
             context["blog_posts"] = self.search_blog_posts(search_query)
             context["search_query"] = search_query
-
             context["categories"] = client.categories.all().get("data")
-
             context["navigation_menu"] = self.get_navigation_menu()
         else:
             context["no_token"] = True
@@ -185,12 +181,10 @@ class ButterCMSBlogPostView(ButterCMSBlogView):
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
+            preview = request.GET.get("preview")
             blog_post = self.get_blog_post(slug)
-
             context["blog_post"] = blog_post
-
             context["categories"] = client.categories.all().get("data")
-
             context["navigation_menu"] = self.get_navigation_menu()
         else:
             context["no_token"] = True
