@@ -1,10 +1,9 @@
 {
     "name": "ButterCMS Django Starter Project ",
-    "description": "A simple project showing how to use ButterCMS with Django.",
-    "repository": "https://github.com/failedguidedog/django-starter-buttercms",
-    "logo": "https://django-starter-buttercms.herokuapp.com/static/images/logo/logo.svg",
-    "keywords": ["django", "python", "buttercms"],
-    "image": "heroku/python",
+    "description": "Drop-in proof-of-concept Django app, fully integrated with your ButterCMS account.",
+    "repository": "https://github.com/ButterCMS/django-starter-buttercms",
+    "logo": "https://cdn.buttercms.com/R3fbtvoRT2CqEQSmk8hb",
+    "keywords": ["django", "python", "buttercms", "cms", "blog"],
     "buildpacks": [
         {
           "url": "heroku/python"
