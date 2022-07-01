@@ -91,7 +91,7 @@ class ButterCMSPageView(TemplateView):
 
         return blog_posts_data
 
-    def search_blog_posts(self, query):
+    def search_blog_posts(self, query, preview=None):
         """
         Return a list of blog posts from ButterCMS that match the search query.
 
