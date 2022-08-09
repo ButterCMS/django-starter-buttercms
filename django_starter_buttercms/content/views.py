@@ -22,7 +22,12 @@ class ButterCMSPageView(TemplateView):
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             preview = request.GET.get("preview")
-            locale = locale_slug
+            if locale_slug:
+                locale = locale_slug
+            else:
+                locale = request.GET.get("locale")
+            if not locale:
+                locale = 'en'
             page = self.get_page(slug, preview=preview, locale=locale)
 
             if page.get("page_type") == "landing-page":
@@ -145,7 +150,10 @@ class ButterCMSBlogView(ButterCMSPageView):
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             preview = request.GET.get("preview")
-            locale=locale_slug,
+            if locale_slug:
+                locale=locale_slug,
+            else:
+                locale = request.GET.get("locale")
             category_slug = kwargs.get("category_slug")
             tag_slug = kwargs.get("tag_slug")
             context["blog_posts"] = self.get_blog_posts(

@@ -13,7 +13,7 @@ urlpatterns = [
     path(
         "",
         ButterCMSPageView.as_view(),
-        {"slug": "landing-page-with-components", "locale_slug": "en"},
+        {"slug": "landing-page-with-components"},
         name="home",
     ),
     # Let's also add a backup landing-page route. This allows the user to create and test multiple 
@@ -21,7 +21,7 @@ urlpatterns = [
     # iframe preview panel.
     path (
         "landing-page/<str:slug>/",
-        ButterCMSPageView.as_view(), {"locale_slug": "en"},
+        ButterCMSPageView.as_view(),
         name="landing-pages",
     ),
     path (
