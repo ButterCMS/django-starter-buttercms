@@ -7,6 +7,8 @@ from django.views.generic import TemplateView
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 from common.buttercms import client
+
+from pprint import pprint
 import logging
 logger = logging.getLogger(__name__)
 
@@ -14,13 +16,14 @@ class ButterCMSPageView(TemplateView):
     template_name = "content/page.html"
 
     @xframe_options_exempt
-    def get(self, request, slug, *args, **kwargs):
+    def get(self, request, slug, locale_slug=None, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             preview = request.GET.get("preview")
-            page = self.get_page(slug, preview=preview)
+            locale = locale_slug
+            page = self.get_page(slug, preview=preview, locale=locale)
 
             if page.get("page_type") == "landing-page":
                 # Prepare template names for components
@@ -34,24 +37,27 @@ class ButterCMSPageView(TemplateView):
                         template_name = "content/partials/missing-component.html"
 
                     component["template_name"] = template_name
+                pprint(page)
             else:
                 # Since there are no implementations for other page types,
                 # we raise 404 in this case.
                 raise Http404
 
-            context["page"] = page
             context["blog_posts"] = self.get_blog_posts()
-            context["navigation_menu"] = self.get_navigation_menu()
+            context["navigation_menu"] = self.get_navigation_menu(preview=preview, locale='en')
+            context["page"] = page
+            context["locale"] = locale
         else:
             context["no_token"] = True
 
         return self.render_to_response(context)
 
-    def get_page(self, slug, preview=None):
+    def get_page(self, slug, locale=None, preview=None):
         """
         Return page from ButterCMS. Raise 404 if the page is not found
         """
         params = {"preview": 1} if preview else None
+        params = {"locale": locale} if locale else None
         butter_page = client.pages.get(
             "*", slug, params=params
         )  # Use "*" to search through all Page Types
@@ -107,11 +113,14 @@ class ButterCMSPageView(TemplateView):
 
         return blog_posts_data
 
-    def get_navigation_menu(self):
+    def get_navigation_menu(self, preview=None, locale=None):
         """
         Return a navigation menu from ButterCMS. Raise 404 if the "Main menu" is not found
         """
-        butter_navigation_menu = client.content_fields.get(["navigation_menu"])
+        params = {}
+        params["preview"] = 1 if preview else None
+        params["locale"] = locale if locale else None
+        butter_navigation_menu = client.content_fields.get(["navigation_menu"], params)
         navigation_menus = butter_navigation_menu.get("data", {}).get(
             "navigation_menu", []
         )
@@ -130,21 +139,23 @@ class ButterCMSBlogView(ButterCMSPageView):
     template_name = "content/blog.html"
 
     @xframe_options_exempt
-    def get(self, request, *args, **kwargs):
+    def get(self, request, locale_slug=None, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             preview = request.GET.get("preview")
+            locale=locale_slug,
             category_slug = kwargs.get("category_slug")
             tag_slug = kwargs.get("tag_slug")
             context["blog_posts"] = self.get_blog_posts(
                 category_slug=category_slug, tag_slug=tag_slug, preview=preview
             )
+            print(context)
             context["category_slug"] = category_slug
             context["tag_slug"] = tag_slug
             context["categories"] = client.categories.all().get("data")
-            context["navigation_menu"] = self.get_navigation_menu()
+            context["navigation_menu"] = self.get_navigation_menu(locale="en")
         else:
             context["no_token"] = True
 
