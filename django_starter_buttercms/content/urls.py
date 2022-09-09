@@ -25,7 +25,7 @@ urlpatterns = [
         name="landing-pages",
     ),
     path (
-        "<str:locale_slug>/landing-page/<str:slug>/",
+        "landing-page/<str:slug>/<str:locale_slug>/",
         ButterCMSPageView.as_view(),
         name="landing-pages",
     ),
