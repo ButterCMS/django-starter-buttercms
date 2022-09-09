@@ -4,6 +4,7 @@
     "repository": "https://github.com/ButterCMS/django-starter-buttercms",
     "logo": "https://cdn.buttercms.com/R3fbtvoRT2CqEQSmk8hb",
     "keywords": ["django", "python", "buttercms", "cms", "blog"],
+    "stack": "heroku-20",
     "buildpacks": [
         {
           "url": "heroku/python"
