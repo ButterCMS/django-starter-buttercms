@@ -8,7 +8,6 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 from common.buttercms import client
 
-from pprint import pprint
 import logging
 logger = logging.getLogger(__name__)
 
@@ -22,6 +21,7 @@ class ButterCMSPageView(TemplateView):
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             preview = request.GET.get("preview")
+            print(preview)
             if locale_slug:
                 locale = locale_slug
             else:
@@ -42,7 +42,6 @@ class ButterCMSPageView(TemplateView):
                         template_name = "content/partials/missing-component.html"
 
                     component["template_name"] = template_name
-                pprint(page)
             else:
                 # Since there are no implementations for other page types,
                 # we raise 404 in this case.
@@ -61,8 +60,10 @@ class ButterCMSPageView(TemplateView):
         """
         Return page from ButterCMS. Raise 404 if the page is not found
         """
-        params = {"preview": 1} if preview else None
-        params = {"locale": locale} if locale else None
+        params = {}
+        params["preview"] = 1 if preview else None
+        params["locale"] = locale if locale else None
+        print(params)
         butter_page = client.pages.get(
             "*", slug, params=params
         )  # Use "*" to search through all Page Types
@@ -159,7 +160,6 @@ class ButterCMSBlogView(ButterCMSPageView):
             context["blog_posts"] = self.get_blog_posts(
                 category_slug=category_slug, tag_slug=tag_slug, preview=preview
             )
-            print(context)
             context["category_slug"] = category_slug
             context["tag_slug"] = tag_slug
             context["categories"] = client.categories.all().get("data")
