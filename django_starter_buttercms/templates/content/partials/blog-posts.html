@@ -8,7 +8,7 @@
                     <p>Butter also has a built in blog engine which makes it dead simple to launch a new company blog.</p>
                     <p>
 						<a 
-							href="{% url 'content:blog' %}" 
+							href="{% url 'content:blog' locale_slug=locale %}" 
 							class="main-btn btn-hover mt-5">View All Blog Posts
 						</a>
 						</p>
@@ -30,7 +30,7 @@
                                 <p>{{ blog_post.summary }}</p>
                             </div>
                             <div class="blog-footer">
-                                <a href="{% url 'content:blog_post' slug=blog_post.slug %}" class="main-btn btn-hover">Read More</a>
+                                <a href="{% url 'content:blog_post' locale_slug=locale slug=blog_post.slug %}" class="main-btn btn-hover">Read More</a>
                             </div>
                         </div>
                     </div>

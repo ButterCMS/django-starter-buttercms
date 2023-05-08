@@ -48,7 +48,7 @@ class ButterCMSPageView(TemplateView):
                 raise Http404
 
             context["blog_posts"] = self.get_blog_posts()
-            context["navigation_menu"] = self.get_navigation_menu(preview=preview, locale='en')
+            context["navigation_menu"] = self.get_navigation_menu(preview=preview, locale=locale)
             context["page"] = page
             context["locale"] = locale
         else:
@@ -63,7 +63,6 @@ class ButterCMSPageView(TemplateView):
         params = {}
         params["preview"] = 1 if preview else None
         params["locale"] = locale if locale else None
-        print(params)
         butter_page = client.pages.get(
             "*", slug, params=params
         )  # Use "*" to search through all Page Types
@@ -163,7 +162,8 @@ class ButterCMSBlogView(ButterCMSPageView):
             context["category_slug"] = category_slug
             context["tag_slug"] = tag_slug
             context["categories"] = client.categories.all().get("data")
-            context["navigation_menu"] = self.get_navigation_menu(locale="en")
+            context["navigation_menu"] = self.get_navigation_menu(locale=locale)
+            context["locale"] = locale_slug
         else:
             context["no_token"] = True
 
@@ -174,17 +174,22 @@ class ButterCMSBlogSearchView(ButterCMSPageView):
     template_name = "content/blog.html"
 
     @xframe_options_exempt
-    def get(self, request, *args, **kwargs):
+    def get(self, request, locale_slug=None, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             search_query = request.GET.get("q")
             preview = request.GET.get("preview")
+            if locale_slug:
+                locale=locale_slug,
+            else:
+                locale = request.GET.get("locale")
             context["blog_posts"] = self.search_blog_posts(search_query)
             context["search_query"] = search_query
             context["categories"] = client.categories.all().get("data")
-            context["navigation_menu"] = self.get_navigation_menu()
+            context["navigation_menu"] = self.get_navigation_menu(locale=locale)
+            context["locale"] = locale_slug
         else:
             context["no_token"] = True
 
@@ -195,16 +200,21 @@ class ButterCMSBlogPostView(ButterCMSBlogView):
     template_name = "content/blog-post.html"
 
     @xframe_options_exempt
-    def get(self, request, slug, *args, **kwargs):
+    def get(self, request, slug, locale_slug=None, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
         # Check if API Token is set properly
         if settings.BUTTERCMS_API_TOKEN:
             preview = request.GET.get("preview")
+            if locale_slug:
+                locale=locale_slug,
+            else:
+                locale = request.GET.get("locale")
             blog_post = self.get_blog_post(slug)
             context["blog_post"] = blog_post
             context["categories"] = client.categories.all().get("data")
-            context["navigation_menu"] = self.get_navigation_menu()
+            context["navigation_menu"] = self.get_navigation_menu(locale=locale)
+            context["locale"] = locale_slug
         else:
             context["no_token"] = True
 

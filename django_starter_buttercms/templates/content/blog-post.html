@@ -67,7 +67,7 @@
                                     </li>
                                     {% for tag in blog_post.tags %}
                                     <li>
-                                        <a href="{% url 'content:blog_tags' tag.slug %}"><i class="lni lni-tag"></i>{{ tag.name }}</a>
+                                        <a href="{% url 'content:blog_tags' locale_slug=locale tag_slug=tag.slug %}"><i class="lni lni-tag"></i>{{ tag.name }}</a>
                                     </li>
                                     {% endfor %}
                                 </ul>
