@@ -133,9 +133,17 @@ class ButterCMSPageView(TemplateView):
         main_menu = [
             menu for menu in navigation_menus if menu.get("name") == "Main menu"
         ]
+        print(main_menu)
 
         if not main_menu:
-            raise Http404
+            if locale:
+                return {'menu_items': [
+                    {
+                        'label': "You haven't set up a menu yet for this locale! Click to set one up.", 
+                        'url': f'https://buttercms.com/content/collections/l/en?collection=navigation_menu'
+                    }]}
+            else:
+                raise Http404
 
         return main_menu[0]
 
