@@ -1,5 +1,8 @@
 # Django + ButterCMS Starter Project
 
+> [!IMPORTANT]
+> We officially support Python versions 3.8 to 3.12.
+
 Live demo: [https://django-starter-buttercms-demo.herokuapp.com/](https://django-starter-buttercms-demo.herokuapp.com/)
 
 This Django starter project fully integrates with dynamic sample content from your ButterCMS account, including main menu, pages, blog posts, categories, and tags, and all with a beautiful, custom theme with already-implemented search functionality. All of the included sample content is automatically created in your account dashboard when you 
