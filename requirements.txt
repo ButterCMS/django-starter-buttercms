@@ -1,7 +1,7 @@
-buttercms-python==1.3.*
-django-environ==0.10.0  # https://github.com/joke2k/django-environ
+buttercms-python==2.0.0
+django-environ==0.11.2  # https://github.com/joke2k/django-environ
 django-extensions==3.2.3  # https://github.com/django-extensions/django-extensions
-django==3.2.* # https://www.djangoproject.com/
-gunicorn==21.2.0  # https://github.com/benoitc/gunicorn
-psycopg2==2.9.7  # https://github.com/psycopg/psycopg2
-whitenoise==6.5.0  # https://github.com/evansd/whitenoise
+django==4.2.* # https://www.djangoproject.com/
+gunicorn==22.0.0  # https://github.com/benoitc/gunicorn
+psycopg2==2.9.9  # https://github.com/psycopg/psycopg2
+whitenoise==6.6.0  # https://github.com/evansd/whitenoise
