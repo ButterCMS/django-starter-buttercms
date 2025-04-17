@@ -1,7 +1,7 @@
 # Django + ButterCMS Starter Project
 
 > [!IMPORTANT]
-> We officially support Python versions 3.8 to 3.12.
+> We officially support Python versions 3.8 to 3.11. This project uses Python 3.11.8 and Django 4.2.20 LTS.
 
 Live demo: [https://django-starter-buttercms-demo.herokuapp.com/](https://django-starter-buttercms-demo.herokuapp.com/)
 
