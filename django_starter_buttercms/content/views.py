@@ -5,6 +5,7 @@ from django.template.exceptions import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.views.generic import TemplateView
 from django.views.decorators.clickjacking import xframe_options_exempt
+from requests.exceptions import HTTPError
 
 from common.buttercms import client
 import logging
@@ -52,21 +53,25 @@ class ButterCMSPageView(TemplateView):
         Return page from ButterCMS. Raise 404 if the page is not found
         """
         params = {"preview": 1} if preview else None
-        butter_page = client.pages.get(
-            "*", slug, params=params
-        )  # Use "*" to search through all Page Types
-        # log error if token is invalid
-        if 'detail' in butter_page:
-            if butter_page['detail'] == "Invalid token.":
+        
+        try:
+            butter_page = client.pages.get(
+                "*", slug, params=params
+            )  # Use "*" to search through all Page Types
+        except HTTPError as error:
+            if str(error) == "401":
+                # log error if token is invalid
                 logger.error(
-                    """***Your Butter token is set to an invalid value. Please verify your token is correct.***""")
-        page_data = butter_page.get("data")
-
-        # If "data" is not in the payload, the page was not fetched successfully
-        if page_data is None:
+                    """***Your Butter token is set to an invalid value. Please verify your token is correct.***"""
+                )
+            else:
+                logger.error(
+                    """***Couldn't fetch page.***"""
+                )
             raise Http404
 
-        return page_data
+        return butter_page.get("data")
+
 
     def get_blog_posts(self, category_slug=None, tag_slug=None, preview=None):
         """
@@ -79,15 +84,22 @@ class ButterCMSPageView(TemplateView):
             kwargs.update({"tag_slug": tag_slug})
         if preview:
             kwargs.update({"preview": preview})
-        blog_posts = client.posts.all(params=kwargs)
-        blog_posts_data = blog_posts.get("data", [])
-
-        # If "data" is not in the payload, the page was not fetched successfully
-        if blog_posts_data is None:
-            raise Http404
-        else: 
+        try:
+            blog_posts = client.posts.all(params=kwargs)
+            blog_posts_data = blog_posts.get("data", [])
             for post in blog_posts_data:
                 post['published'] = dateparse.parse_datetime(post['published'])
+        except HTTPError as status_code:
+            if status_code == 401:
+                # log error if token is invalid
+                logger.error(
+                    """***Your Butter token is set to an invalid value. Please verify your token is correct.***"""
+                )
+            else:
+                logger.error(
+                    """***Couldn't fetch page.***"""
+                )
+            raise Http404
 
         return blog_posts_data
 
@@ -100,11 +112,22 @@ class ButterCMSPageView(TemplateView):
         kwargs = {"page_size": 3, "page": 1, "exclude_body": "true"}
         if preview:
             kwargs.update({"preview": preview})
-        blog_posts = client.posts.search(query=query, params=kwargs)
-        blog_posts_data = blog_posts.get("data", [])
-        for post in blog_posts_data:
-            post['published'] = dateparse.parse_datetime(post['published'])
-
+        try:
+            blog_posts = client.posts.search(query=query, params=kwargs)
+            blog_posts_data = blog_posts.get("data", [])
+            for post in blog_posts_data:
+                post['published'] = dateparse.parse_datetime(post['published'])
+        except HTTPError as status_code:
+            if status_code == 401:
+                # log error if token is invalid
+                logger.error(
+                    """***Your Butter token is set to an invalid value. Please verify your token is correct.***"""
+                )
+            else:
+                logger.error(
+                    """***Couldn't fetch page.***"""
+                )
+            raise Http404
         return blog_posts_data
 
     def get_navigation_menu(self):
@@ -195,13 +218,21 @@ class ButterCMSBlogPostView(ButterCMSBlogView):
         """
         Return a blog post from ButterCMS. Raise 404 if the post is not found
         """
-        butter_post = client.posts.get(slug)
-        post_data = butter_post.get("data")
-        post_data['published'] = dateparse.parse_datetime(post_data['published'])
+        try:
+            butter_post = client.posts.get(slug)
+            post_data = butter_post.get("data")
+            post_data['published'] = dateparse.parse_datetime(post_data['published'])
 
-
-        # If "data" is not in the payload, the page was not fetched successfully
-        if post_data is None:
+            return post_data
+        except HTTPError as status_code:
+            if status_code == 401:
+                # log error if token is invalid
+                logger.error(
+                    """***Your Butter token is set to an invalid value. Please verify your token is correct.***"""
+                )
+            else:
+                logger.error(
+                    """***Couldn't fetch page.***"""
+                )
             raise Http404
 
-        return post_data
