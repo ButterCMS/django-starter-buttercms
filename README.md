@@ -13,15 +13,37 @@ This Django starter project fully integrates with dynamic sample content from yo
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ButterCMS/django-starter-buttercms/&env[BUTTERCMS_API_TOKEN]=check%20https://buttercms.com/settings)
 
 ## 1) Installation
-
-First, create a virtual environment and install dependencies by running the 
-below commands.
-
+Clone the project and change into the new directory by running the following commands.
 ```bash
 $ git clone https://github.com/ButterCMS/django-starter-buttercms.git
 $ cd django-starter-buttercms
+```
+
+Follow the next steps depending on to your system.
+
+### Linux and MacOS
+Create a virtual environment and install dependencies by running the 
+below commands.
+
+```bash
 $ python3 -m venv butterenv && source butterenv/bin/activate
 $ pip install --upgrade pip && pip install -r requirements.txt
+```
+
+### Windows
+Create a virtual environment
+```bash
+$ python -m venv butterenv
+```
+Choose command to install dependencies:
+
+In PowerShell:
+```
+$ .\butterenv\Scripts\Activate.ps1
+```
+In Command Prompt:
+```
+$ butterenv\Scripts\activate.bat
 ```
 
 ### 2) Set ButterCMS API Token
