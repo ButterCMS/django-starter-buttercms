@@ -5,13 +5,7 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
-urlpatterns = [
-    path("", include("django_starter_buttercms.content.urls", namespace="content")),
-    # Django Admin, use {% url 'admin:index' %}
-    path(settings.ADMIN_URL, admin.site.urls),
-    # Your stuff: custom urls includes go here
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+urlpatterns = []
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
@@ -38,3 +32,10 @@ if settings.DEBUG:
         import debug_toolbar
 
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+
+urlpatterns += [
+    path("", include("django_starter_buttercms.content.urls", namespace="content")),
+    # Django Admin, use {% url 'admin:index' %}
+    path(settings.ADMIN_URL, admin.site.urls),
+    # Your stuff: custom urls includes go here
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
